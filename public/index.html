@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mastra Coding Agent Console</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Conversation controls">
+        <div class="brand">
+          <div class="brand-icon" aria-hidden="true">⚙️</div>
+          <div>
+            <h1>Agent Console</h1>
+            <p>Coding Agent playground</p>
+          </div>
+        </div>
+        <button class="primary" id="new-thread-btn" type="button">Start fresh conversation</button>
+        <section class="panel">
+          <header>
+            <h2>Conversation</h2>
+            <p>Manage context and history</p>
+          </header>
+          <div class="field">
+            <label for="thread-id-input">Thread ID</label>
+            <div class="input-with-button">
+              <input id="thread-id-input" name="threadId" placeholder="Optional" />
+              <button type="button" id="copy-thread-id" title="Copy thread id">
+                <span aria-hidden="true">⧉</span>
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="system-prompt">System prompt</label>
+            <textarea
+              id="system-prompt"
+              name="systemPrompt"
+              rows="4"
+              placeholder="Customise how the agent should behave"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label for="metadata-editor">Metadata</label>
+            <textarea
+              id="metadata-editor"
+              name="metadata"
+              rows="3"
+              placeholder='{"ticketId":"1234"}'
+            ></textarea>
+            <p class="hint">JSON encoded object passed to the agent request.</p>
+          </div>
+        </section>
+        <section class="panel">
+          <header>
+            <h2>Request composer</h2>
+            <p>Enrich outbound calls</p>
+          </header>
+          <div class="field checkbox">
+            <input type="checkbox" id="stream-toggle" name="stream" />
+            <label for="stream-toggle">Enable streaming mode</label>
+          </div>
+          <div class="field checkbox">
+            <input type="checkbox" id="show-raw-toggle" name="showRaw" />
+            <label for="show-raw-toggle">Show raw request preview</label>
+          </div>
+          <div class="field">
+            <label for="tool-target">Tooling focus</label>
+            <select id="tool-target" name="toolTarget">
+              <option value="auto" selected>Automatic (agent decides)</option>
+              <option value="sandbox">Sandbox operations</option>
+              <option value="code">Code authoring</option>
+              <option value="analysis">Analysis & planning</option>
+            </select>
+          </div>
+        </section>
+      </aside>
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <h2>Conversation</h2>
+            <p class="status" id="status-indicator">Idle</p>
+          </div>
+          <div class="connection">
+            <div class="field compact">
+              <label for="base-url">API base URL</label>
+              <input id="base-url" name="baseUrl" placeholder="http://localhost:8787/api" />
+            </div>
+            <div class="field compact">
+              <label for="agent-id">Agent identifier</label>
+              <input id="agent-id" name="agentId" placeholder="codingAgent" />
+            </div>
+            <div class="field compact">
+              <label for="endpoint">Endpoint</label>
+              <select id="endpoint" name="endpoint">
+                <option value="invoke" selected>Invoke</option>
+                <option value="stream">Stream</option>
+              </select>
+            </div>
+          </div>
+        </header>
+        <section class="transcript" id="transcript" aria-live="polite"></section>
+        <section class="composer" aria-label="Message composer">
+          <div class="composer-header">
+            <span>Message</span>
+            <button id="clear-composer" type="button">Clear</button>
+          </div>
+          <textarea
+            id="message-input"
+            placeholder="Describe the change you want the coding agent to make..."
+            rows="4"
+          ></textarea>
+          <div class="composer-actions">
+            <div class="attachments">
+              <label for="attachment-input" class="attachment-label">➕ Attach context</label>
+              <input type="file" id="attachment-input" multiple hidden />
+              <div id="attachment-list" class="attachment-list" aria-live="polite"></div>
+            </div>
+            <button id="send-btn" class="primary" type="button">Send to agent</button>
+          </div>
+        </section>
+        <section class="raw-preview" id="raw-preview" hidden>
+          <header>
+            <h3>Outgoing request</h3>
+            <button id="copy-payload" type="button">Copy</button>
+          </header>
+          <pre id="payload-view"></pre>
+        </section>
+      </main>
+      <aside class="inspector" aria-label="Agent output details">
+        <section class="panel">
+          <header>
+            <h2>Agent response</h2>
+            <p>Inspect the returned payload</p>
+          </header>
+          <pre id="response-view" class="code-block" aria-live="polite"></pre>
+        </section>
+        <section class="panel">
+          <header>
+            <h2>Tool activity</h2>
+            <p>Trace tool invocations</p>
+          </header>
+          <div id="tool-events" class="tool-events" aria-live="polite"></div>
+        </section>
+      </aside>
+    </div>
+    <template id="message-template">
+      <article class="message">
+        <header>
+          <span class="role"></span>
+          <time class="timestamp"></time>
+        </header>
+        <div class="content"></div>
+      </article>
+    </template>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

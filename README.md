@@ -50,6 +50,12 @@ This template demonstrates how to build an AI coding assistant that can work wit
    pnpm run dev
    ```
 
+4. **Open the bespoke coding console (optional):**
+
+   A fully client-side playground for the coding agent lives in `public/index.html`. Open the file in your browser or serve the
+   `public/` directory with any static file server to drive the agent with a rich, customisable UI. Configure the API base URL
+   and agent identifier from within the console to match your running Mastra instance.
+
 ## Architecture
 
 ### Core Components
@@ -174,6 +180,10 @@ src/mastra/
       tools/
         e2b.ts                      # Complete E2B sandbox interaction toolkit
       index.ts                        # Mastra configuration with storage and logging
+public/
+  index.html                        # Custom UI for driving the coding agent
+  styles.css                        # Modern, responsive styling for the console
+  app.js                            # Client-side logic for composing and dispatching agent requests
 ```
 
 ## License
