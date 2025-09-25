@@ -2,12 +2,16 @@
   "name": "coding-agent",
   "version": "0.2.0",
   "description": "Advanced Mastra AI coding agent with secure E2B sandbox execution, comprehensive file management, and multi-language support for Python, JavaScript, and TypeScript development workflows",
-  "main": "index.js",
+  "main": "desktop/electron-main.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "mastra dev",
     "build": "mastra build",
-    "start": "mastra start"
+    "start": "mastra start",
+    "lint": "tsc --noEmit",
+    "doctor": "node scripts/doctor.mjs",
+    "desktop": "electron .",
+    "desktop:package": "electron-builder --dir"
   },
   "keywords": [],
   "author": "",
@@ -28,8 +32,25 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@types/electron": "^1.6.0",
     "@types/node": "^24.1.0",
+    "electron": "^31.3.1",
+    "electron-builder": "^24.13.3",
     "mastra": "latest",
     "typescript": "^5.8.3"
+  },
+  "build": {
+    "appId": "com.mastra.codingagent.desktop",
+    "productName": "Coding Agent Desktop",
+    "files": [
+      "dist/**/*",
+      "desktop/**/*",
+      "src/**/*",
+      "package.json",
+      "tsconfig.json"
+    ],
+    "extraMetadata": {
+      "main": "desktop/electron-main.mjs"
+    }
   }
 }

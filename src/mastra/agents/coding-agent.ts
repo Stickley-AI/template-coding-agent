@@ -18,10 +18,10 @@ import {
   writeFiles,
 } from '../tools/e2b';
 import { fastembed } from '@mastra/fastembed';
+import { runCustomCommand } from '../tools/custom-commands';
+import { personalAgentConfig } from './personal-config';
 
-export const codingAgent = new Agent({
-  name: 'Coding Agent',
-  instructions: `
+const baseInstructions = `
 # Mastra Coding Agent for E2B Sandboxes
 
 You are an advanced coding agent that plans, writes, executes, and iterates on code in secure, isolated E2B sandboxes with comprehensive file management, live monitoring, and development workflow capabilities.
@@ -186,7 +186,130 @@ For sophisticated projects, leverage:
 - **Deployment preparation** and distribution packaging
 
 Remember: You are not just a code executor, but a complete development environment that can handle sophisticated, multi-file projects with professional development workflows and comprehensive monitoring capabilities.
-`,
+`;
+
+const buildPersonalizedInstructions = (): string => {
+  const lines: string[] = [];
+
+  lines.push('## Personalized Configuration');
+  if (personalAgentConfig.name || personalAgentConfig.tagline) {
+    const identityParts = [personalAgentConfig.name, personalAgentConfig.tagline].filter(Boolean).join(' — ');
+    if (identityParts) {
+      lines.push(`- **Identity**: ${identityParts}`);
+    }
+  }
+  if (personalAgentConfig.mission) {
+    lines.push(`- **Mission**: ${personalAgentConfig.mission}`);
+  }
+
+  const { preferences } = personalAgentConfig;
+  if (
+    preferences?.languages?.length ||
+    preferences?.technologies?.length ||
+    preferences?.developmentStyle?.length ||
+    preferences?.goals?.length
+  ) {
+    lines.push('');
+    lines.push('### Preference Highlights');
+    if (preferences.languages?.length) {
+      lines.push(`- Preferred languages: ${preferences.languages.join(', ')}`);
+    }
+    if (preferences.technologies?.length) {
+      lines.push(`- Preferred technologies: ${preferences.technologies.join(', ')}`);
+    }
+    if (preferences.developmentStyle?.length) {
+      lines.push('- Development style guidelines:');
+      lines.push(...preferences.developmentStyle.map(style => `  - ${style}`));
+    }
+    if (preferences.goals?.length) {
+      lines.push('- Long-term goals:');
+      lines.push(...preferences.goals.map(goal => `  - ${goal}`));
+    }
+  }
+
+  const { memoryStrategy } = personalAgentConfig;
+  if (
+    memoryStrategy?.longTermSummary ||
+    memoryStrategy?.longTermFocusAreas?.length ||
+    memoryStrategy?.shortTermSummary ||
+    memoryStrategy?.workingMemoryGuidelines?.length
+  ) {
+    lines.push('');
+    lines.push('### Memory Strategy');
+    if (memoryStrategy.longTermSummary) {
+      lines.push(`- Long-term memory: ${memoryStrategy.longTermSummary}`);
+    }
+    if (memoryStrategy.longTermFocusAreas?.length) {
+      lines.push('- Focus areas for long-term storage:');
+      lines.push(...memoryStrategy.longTermFocusAreas.map(area => `  - ${area}`));
+    }
+    if (memoryStrategy.shortTermSummary) {
+      lines.push(`- Short-term memory: ${memoryStrategy.shortTermSummary}`);
+    }
+    if (memoryStrategy.workingMemoryGuidelines?.length) {
+      lines.push('- Working memory best practices:');
+      lines.push(...memoryStrategy.workingMemoryGuidelines.map(guideline => `  - ${guideline}`));
+    }
+  }
+
+  if (personalAgentConfig.additionalInstructions?.length) {
+    lines.push('');
+    lines.push('### Additional Personal Instructions');
+    lines.push(...personalAgentConfig.additionalInstructions.map(instruction => `- ${instruction}`));
+  }
+
+  if (personalAgentConfig.customCommands?.length) {
+    lines.push('');
+    lines.push('### Custom Command Catalog');
+    lines.push('- Use `runCustomCommand` with the commandId to invoke these workflows.');
+    for (const command of personalAgentConfig.customCommands) {
+      const labelSuffix = command.label ? ` (${command.label})` : '';
+      lines.push(`- **${command.id}**${labelSuffix}: ${command.description}`);
+    }
+  }
+
+  return lines.join('\n');
+};
+
+const personalizedInstructions = buildPersonalizedInstructions();
+const finalInstructions = `${baseInstructions}${personalizedInstructions ? `\n\n${personalizedInstructions}` : ''}`;
+
+const mergeMemoryOptions = (
+  defaults: Record<string, unknown>,
+  overrides?: Record<string, unknown>,
+): Record<string, unknown> => {
+  if (!overrides) {
+    return { ...defaults };
+  }
+
+  const merged: Record<string, unknown> = { ...defaults, ...overrides };
+
+  const defaultThreads = (defaults.threads ?? {}) as Record<string, unknown>;
+  const overrideThreads = (overrides.threads ?? {}) as Record<string, unknown>;
+  if (Object.keys(defaultThreads).length || Object.keys(overrideThreads).length) {
+    merged.threads = { ...defaultThreads, ...overrideThreads };
+  }
+
+  const defaultWorkingMemory = (defaults.workingMemory ?? {}) as Record<string, unknown>;
+  const overrideWorkingMemory = (overrides.workingMemory ?? {}) as Record<string, unknown>;
+  if (Object.keys(defaultWorkingMemory).length || Object.keys(overrideWorkingMemory).length) {
+    merged.workingMemory = { ...defaultWorkingMemory, ...overrideWorkingMemory };
+  }
+
+  return merged;
+};
+
+const defaultMemoryOptions: Record<string, unknown> = {
+  threads: { generateTitle: true },
+  semanticRecall: true,
+  workingMemory: { enabled: true },
+};
+
+const memoryOptions = mergeMemoryOptions(defaultMemoryOptions, personalAgentConfig.memoryOptions);
+
+export const codingAgent = new Agent({
+  name: personalAgentConfig.name || 'Coding Agent',
+  instructions: finalInstructions,
   model: openai('gpt-4.1'),
   tools: {
     createSandbox,
@@ -202,14 +325,11 @@ Remember: You are not just a code executor, but a complete development environme
     getFileSize,
     watchDirectory,
     runCommand,
+    runCustomCommand,
   },
   memory: new Memory({
     storage: new LibSQLStore({ url: 'file:../../mastra.db' }),
-    options: {
-      threads: { generateTitle: true },
-      semanticRecall: true,
-      workingMemory: { enabled: true },
-    },
+    options: memoryOptions,
     embedder: fastembed,
     vector: new LibSQLVector({ connectionUrl: 'file:../../mastra.db' }),
   }),
