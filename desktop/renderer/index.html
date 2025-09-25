@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coding Agent Desktop</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Personal Coding Agent</h1>
+      <p class="tagline">Launch, monitor, and manage your personalized Mastra coding agent without the terminal.</p>
+    </header>
+
+    <main>
+      <section class="configuration">
+        <h2>Environment</h2>
+        <form id="config-form">
+          <div class="field">
+            <label for="mode">Start Mode</label>
+            <select id="mode" name="mode">
+              <option value="dev">Development (mastra dev)</option>
+              <option value="start">Production (mastra start)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="e2b-key">E2B API Key</label>
+            <input id="e2b-key" name="e2bKey" type="password" placeholder="Required for sandbox access" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label for="openai-key">OpenAI API Key</label>
+            <input
+              id="openai-key"
+              name="openaiKey"
+              type="password"
+              placeholder="Required for AI completions"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="actions">
+            <button type="submit" id="start-button">Start Agent</button>
+            <button type="button" id="stop-button" class="secondary">Stop Agent</button>
+          </div>
+        </form>
+        <p id="status-text" class="status">Status: stopped</p>
+      </section>
+
+      <section class="output">
+        <h2>Agent Output</h2>
+        <div id="output-log" class="log"></div>
+      </section>
+    </main>
+
+    <aside class="tips">
+      <h2>Quick Tips</h2>
+      <ul>
+        <li>Run <code>npm run doctor</code> to verify prerequisites before launching.</li>
+        <li>Install dependencies first (<code>npm install</code> or <code>pnpm install</code>).</li>
+        <li>Your API keys are stored locally in this app for convenience and never leave your machine.</li>
+      </ul>
+    </aside>
+
+    <script type="module" src="./renderer.js"></script>
+  </body>
+</html>
