@@ -14,6 +14,8 @@ This template demonstrates how to build an AI coding assistant that can work wit
 - **Live Development Monitoring**: Watch directory changes and monitor development workflows
 - **Command Execution**: Run shell commands, install packages, and manage dependencies
 - **Memory System**: Persistent conversation memory with semantic recall and working memory
+- **Personalization Layer**: Configure agent identity, preferences, and a catalog of repeatable workflows
+- **Desktop Launcher**: Electron-based desktop application for starting/stopping the agent without the terminal
 - **Development Workflows**: Professional development patterns with build automation
 
 ## Prerequisites
@@ -29,7 +31,8 @@ This template demonstrates how to build an AI coding assistant that can work wit
    ```bash
    git clone https://github.com/mastra-ai/template-coding-agent.git
    cd template-coding-agent
-   pnpm install
+   npm install
+   # or: pnpm install
    ```
 
 2. **Set up environment variables:**
@@ -44,11 +47,26 @@ This template demonstrates how to build an AI coding assistant that can work wit
    OPENAI_API_KEY="your-openai-api-key-here"
    ```
 
-3. **Start the development server:**
+3. **Check your environment:**
 
    ```bash
-   pnpm run dev
+   npm run doctor
    ```
+
+   The doctor script highlights missing dependencies or API keys before you launch the agent.
+
+4. **Start the agent (pick one):**
+
+   - **CLI:** `npm run dev` for hot-reload development or `npm run start` for production mode.
+   - **Desktop App:** `npm run desktop` to open the Electron launcher. Provide your API keys once and start/stop the agent with buttons. Output streaming and status updates are surfaced in the UI.
+
+5. **Package a desktop build (optional):**
+
+   ```bash
+   npm run desktop:package
+   ```
+
+   This produces a platform-specific build in the `dist/` directory using `electron-builder`.
 
 ## Architecture
 
@@ -63,6 +81,7 @@ The main agent with comprehensive development capabilities:
 - **File Operations**: Complete CRUD operations for files and directories
 - **Development Monitoring**: Watches for changes and monitors workflows
 - **Memory Integration**: Maintains conversation context and project history
+- **Personal Profile**: Dynamically incorporates preferences defined in `personal-config.ts`
 
 #### **E2B Tools** (`src/mastra/tools/e2b.ts`)
 
@@ -98,6 +117,7 @@ Complete toolkit for sandbox interaction:
 **Development Workflow:**
 
 - `runCommand` - Execute shell commands, build scripts, package management
+- `runCustomCommand` - Trigger user-defined workflows stored in `personal-config.ts`
 
 ### Memory System
 
@@ -117,21 +137,55 @@ E2B_API_KEY=your_e2b_api_key_here
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-### Customization
+### Personalization & Custom Commands
 
-You can customize the agent behavior by modifying the instructions in `src/mastra/agents/coding-agent.ts`:
+Fine-tune the assistant without editing core agent code by updating `src/mastra/agents/personal-config.ts`.
 
 ```typescript
-export const codingAgent = new Agent({
-  name: 'Coding Agent',
-  instructions: `
-    // Customize agent instructions here
-    // Focus on specific languages, frameworks, or development patterns
-  `,
-  model: openai('gpt-4.1'),
-  // ... other configuration
-});
+export const personalAgentConfig = {
+  name: 'My Personal Coding Companion',
+  tagline: 'A persistent AI partner tailored to your workflows.',
+  mission: 'Describe the long-term goals for the agent.',
+  preferences: {
+    languages: ['TypeScript', 'Python'],
+    technologies: ['Node.js', 'React'],
+    developmentStyle: ['Prefer TDD', 'Document architectural decisions'],
+  },
+  memoryStrategy: {
+    longTermSummary: 'What should be remembered across sessions.',
+    workingMemoryGuidelines: ['Snapshot progress at the end of each session.'],
+  },
+  customCommands: [
+    {
+      id: 'start-dev',
+      label: 'Start Dev Server',
+      description: 'Launch the development server inside the sandbox.',
+      command: 'pnpm run dev',
+    },
+  ],
+};
 ```
+
+Key capabilities provided by the configuration file:
+
+- **Agent identity** — control tone, mission, and project focus.
+- **Preference sets** — inform the agent about favored languages, tools, and delivery style.
+- **Memory strategy** — guide how long-term and short-term context should be stored.
+- **Custom commands** — register reusable shell commands that can be triggered with the `runCustomCommand` tool using a `commandId`.
+
+Feel free to extend the configuration with additional custom commands or memory options; the agent automatically reads the updated details on startup.
+
+### Desktop Launcher
+
+The Electron desktop app wraps the same Mastra agent so you can run it without the terminal:
+
+1. Install dependencies and run `npm run doctor` to verify prerequisites.
+2. Launch the desktop shell with `npm run desktop`.
+3. Enter your API keys once—the app stores them locally using the operating system's application storage.
+4. Start or stop the agent with a single click. Live logs and status updates stream into the UI so you can monitor the session in real time.
+5. Package a distributable build with `npm run desktop:package` when you are ready to share it across machines.
+
+The launcher proxies your chosen mode (`mastra dev` for development or `mastra start` for production) and forwards environment variables so the agent runs exactly as it does via the CLI.
 
 ## Common Issues
 
@@ -171,8 +225,10 @@ export const codingAgent = new Agent({
 src/mastra/
       agents/
         coding-agent.ts              # Main coding agent with development capabilities
+        personal-config.ts           # User-editable persona, memory, and command catalog
       tools/
         e2b.ts                      # Complete E2B sandbox interaction toolkit
+        custom-commands.ts          # Tool for invoking reusable workflows
       index.ts                        # Mastra configuration with storage and logging
 ```
 
