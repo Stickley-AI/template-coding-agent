@@ -2,7 +2,69 @@ import { createTool } from '@mastra/core/tools';
 import z from 'zod';
 import { FilesystemEventType, FileType, Sandbox } from '@e2b/code-interpreter';
 
-export const createSandbox = createTool({
+type SandboxIdentifier = {
+  sandboxId: string;
+};
+
+type CreateSandboxContext = {
+  metadata?: Record<string, string>;
+  envs?: Record<string, string>;
+  timeoutMS?: number;
+};
+
+type RunCodeContext = SandboxIdentifier & {
+  code: string;
+  runCodeOpts?: {
+    language?: 'ts' | 'js' | 'python';
+    envs?: Record<string, string>;
+    timeoutMS?: number;
+    requestTimeoutMs?: number;
+  };
+};
+
+type ReadFileContext = SandboxIdentifier & {
+  path: string;
+};
+
+type WriteFileContext = SandboxIdentifier & {
+  path: string;
+  content: string;
+};
+
+type WriteFilesContext = SandboxIdentifier & {
+  files: Array<{ path: string; data: string }>;
+};
+
+type ListFilesContext = SandboxIdentifier & {
+  path: string;
+};
+
+type DeleteFileContext = ReadFileContext;
+
+type CreateDirectoryContext = ReadFileContext;
+
+type GetFileInfoContext = ReadFileContext;
+
+type CheckFileExistsContext = ReadFileContext;
+
+type GetFileSizeContext = ReadFileContext & {
+  humanReadable: boolean;
+};
+
+type WatchDirectoryContext = SandboxIdentifier & {
+  path: string;
+  recursive: boolean;
+  watchDuration: number;
+};
+
+type RunCommandContext = SandboxIdentifier & {
+  command: string;
+  workingDirectory?: string;
+  timeoutMs: number;
+  captureOutput: boolean;
+};
+
+export const createSandbox = createTool<CreateSandboxContext>({
   id: 'createSandbox',
   description: 'Create an e2b sandbox',
   inputSchema: z.object({
@@ -42,7 +104,7 @@ export const createSandbox = createTool({
   },
 });
 
-export const runCode = createTool({
+export const runCode = createTool<RunCodeContext>({
   id: 'runCode',
   description: 'Run code in an e2b sandbox',
   inputSchema: z.object({
@@ -93,7 +155,7 @@ export const runCode = createTool({
   },
 });
 
-export const readFile = createTool({
+export const readFile = createTool<ReadFileContext>({
   id: 'readFile',
   description: 'Read a file from the e2b sandbox',
   inputSchema: z.object({
@@ -127,7 +189,7 @@ export const readFile = createTool({
   },
 });
 
-export const writeFile = createTool({
+export const writeFile = createTool<WriteFileContext>({
   id: 'writeFile',
   description: 'Write a single file to the e2b sandbox',
   inputSchema: z.object({
@@ -162,7 +224,7 @@ export const writeFile = createTool({
   },
 });
 
-export const writeFiles = createTool({
+export const writeFiles = createTool<WriteFilesContext>({
   id: 'writeFiles',
   description: 'Write multiple files to the e2b sandbox',
   inputSchema: z.object({
@@ -203,7 +265,7 @@ export const writeFiles = createTool({
   },
 });
 
-export const listFiles = createTool({
+export const listFiles = createTool<ListFilesContext>({
   id: 'listFiles',
   description: 'List files and directories in a path within the e2b sandbox',
   inputSchema: z.object({
@@ -233,8 +295,6 @@ export const listFiles = createTool({
       const sandbox = await Sandbox.connect(context.sandboxId);
       const fileList = await sandbox.files.list(context.path);
 
-      fileList.map(f => f.type);
-
       return {
         files: fileList.map(file => ({
           name: file.name,
@@ -251,7 +311,7 @@ export const listFiles = createTool({
   },
 });
 
-export const deleteFile = createTool({
+export const deleteFile = createTool<DeleteFileContext>({
   id: 'deleteFile',
   description: 'Delete a file or directory from the e2b sandbox',
   inputSchema: z.object({
@@ -285,7 +345,7 @@ export const deleteFile = createTool({
   },
 });
 
-export const createDirectory = createTool({
+export const createDirectory = createTool<CreateDirectoryContext>({
   id: 'createDirectory',
   description: 'Create a directory in the e2b sandbox',
   inputSchema: z.object({
@@ -319,7 +379,7 @@ export const createDirectory = createTool({
   },
 });
 
-export const getFileInfo = createTool({
+export const getFileInfo = createTool<GetFileInfoContext>({
   id: 'getFileInfo',
   description: 'Get detailed information about a file or directory in the e2b sandbox',
   inputSchema: z.object({
@@ -369,7 +429,7 @@ export const getFileInfo = createTool({
   },
 });
 
-export const checkFileExists = createTool({
+export const checkFileExists = createTool<CheckFileExistsContext>({
   id: 'checkFileExists',
   description: 'Check if a file or directory exists in the e2b sandbox',
   inputSchema: z.object({
@@ -413,7 +473,7 @@ export const checkFileExists = createTool({
   },
 });
 
-export const getFileSize = createTool({
+export const getFileSize = createTool<GetFileSizeContext>({
   id: 'getFileSize',
   description: 'Get the size of a file or directory in the e2b sandbox',
   inputSchema: z.object({
@@ -469,7 +529,7 @@ export const getFileSize = createTool({
   },
 });
 
-export const watchDirectory = createTool({
+export const watchDirectory = createTool<WatchDirectoryContext>({
   id: 'watchDirectory',
   description: 'Start watching a directory for file system changes in the e2b sandbox',
   inputSchema: z.object({
@@ -541,7 +601,7 @@ export const watchDirectory = createTool({
   },
 });
 
-export const runCommand = createTool({
+export const runCommand = createTool<RunCommandContext>({
   id: 'runCommand',
   description: 'Run a shell command in the e2b sandbox',
   inputSchema: z.object({
