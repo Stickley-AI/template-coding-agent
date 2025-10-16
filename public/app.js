@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'mastra-agent-console-settings';
+const STORAGE_KEY = 'agent-console-settings';
 const defaultSettings = {
   baseUrl: 'http://localhost:8787/api',
   agentId: 'codingAgent',
