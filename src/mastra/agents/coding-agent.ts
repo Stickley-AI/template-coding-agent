@@ -1,6 +1,7 @@
 import { Agent } from '../../framework/agent';
 import { LibSQLStore, LibSQLVector } from '../../framework/libsql';
 import { Memory } from '../../framework/memory';
+import { fastembed } from '../../framework/fastembed';
 import { openai } from '@ai-sdk/openai';
 import {
   checkFileExists,
@@ -17,7 +18,6 @@ import {
   writeFile,
   writeFiles,
 } from '../tools/e2b';
-import { fastembed } from '../../framework/fastembed';
 
 export const codingAgent = new Agent({
   name: 'Coding Agent',
