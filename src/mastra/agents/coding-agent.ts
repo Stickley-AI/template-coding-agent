@@ -1,6 +1,6 @@
-import { Agent } from '@mastra/core/agent';
-import { LibSQLStore, LibSQLVector } from '@mastra/libsql';
-import { Memory } from '@mastra/memory';
+import { Agent } from '../../framework/agent';
+import { LibSQLStore, LibSQLVector } from '../../framework/libsql';
+import { Memory } from '../../framework/memory';
 import { openai } from '@ai-sdk/openai';
 import {
   checkFileExists,
@@ -17,7 +17,7 @@ import {
   writeFile,
   writeFiles,
 } from '../tools/e2b';
-import { fastembed } from '@mastra/fastembed';
+import { fastembed } from '../../framework/fastembed';
 
 export const codingAgent = new Agent({
   name: 'Coding Agent',

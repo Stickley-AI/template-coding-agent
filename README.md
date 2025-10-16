@@ -1,10 +1,12 @@
 # E2B Code Execution Agent
 
-An advanced Mastra template that provides a coding agent capable of planning, writing, executing, and iterating on code in secure, isolated E2B sandboxes with comprehensive file management and development workflow capabilities.
+An advanced coding agent template that provides a coding agent capable of planning, writing, executing, and iterating on code in secure, isolated E2B sandboxes with comprehensive file management and development workflow capabilities.
 
 ## Overview
 
 This template demonstrates how to build an AI coding assistant that can work with real development environments. The agent can create sandboxes, manage files and directories, execute code in multiple languages, and monitor development workflows - all within secure, isolated E2B environments.
+
+This project uses a custom-built agent framework (inspired by Mastra) for managing AI agents, tools, and memory.
 
 ## Features
 
@@ -27,9 +29,9 @@ This template demonstrates how to build an AI coding assistant that can work wit
 1. **Clone and install dependencies:**
 
    ```bash
-   git clone https://github.com/mastra-ai/template-coding-agent.git
+   git clone https://github.com/astickleyid/template-coding-agent.git
    cd template-coding-agent
-   pnpm install
+   npm install
    ```
 
 2. **Set up environment variables:**
@@ -47,16 +49,25 @@ This template demonstrates how to build an AI coding assistant that can work wit
 3. **Start the development server:**
 
    ```bash
-   pnpm run dev
+   npm run dev
    ```
 
 4. **Open the bespoke coding console (optional):**
 
-   A fully client-side playground for the coding agent lives in `public/index.html`. Open the file in your browser or serve the
-   `public/` directory with any static file server to drive the agent with a rich, customisable UI. Configure the API base URL
-   and agent identifier from within the console to match your running Mastra instance.
+   A fully client-side playground for the coding agent lives in `public/index.html`. Navigate to `http://localhost:8787` in your browser to access the console. The server serves both the API and the UI.
 
 ## Architecture
+
+### Custom Framework
+
+The project includes a custom-built agent framework located in `src/framework/` that provides:
+
+- **Mastra**: Main framework orchestrator
+- **Agent**: AI agent with tool execution capabilities
+- **Tools**: Tool definition and execution system
+- **Memory**: Conversation memory with SQLite storage
+- **Logger**: Simple console-based logger
+- **Storage**: SQLite-based storage for messages and threads
 
 ### Core Components
 
@@ -174,18 +185,28 @@ export const codingAgent = new Agent({
 ### Project Structure
 
 ```text
-src/mastra/
-      agents/
-        coding-agent.ts              # Main coding agent with development capabilities
-      tools/
-        e2b.ts                      # Complete E2B sandbox interaction toolkit
-      index.ts                        # Mastra configuration with storage and logging
+src/
+  framework/                      # Custom agent framework
+    mastra.ts                     # Main framework class
+    agent.ts                      # Agent implementation
+    tools.ts                      # Tool creation utilities
+    memory.ts                     # Memory system
+    libsql.ts                     # SQLite storage
+    logger.ts                     # Logger implementation
+    fastembed.ts                  # Embedding utilities
+  mastra/
+    agents/
+      coding-agent.ts             # Main coding agent with development capabilities
+    tools/
+      e2b.ts                      # Complete E2B sandbox interaction toolkit
+    index.ts                      # Agent configuration
+  server.ts                       # HTTP server for API and UI
 public/
-  index.html                        # Custom UI for driving the coding agent
-  styles.css                        # Modern, responsive styling for the console
-  app.js                            # Client-side logic for composing and dispatching agent requests
+  index.html                      # Custom UI for driving the coding agent
+  styles.css                      # Modern, responsive styling for the console
+  app.js                          # Client-side logic for composing and dispatching agent requests
 ```
 
 ## License
 
-This project is part of the Mastra ecosystem and follows the same licensing terms.
+This project is licensed under the Apache-2.0 License.
