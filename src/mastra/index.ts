@@ -1,6 +1,6 @@
-import { Mastra } from '../framework/mastra';
-import { LibSQLStore } from '../framework/libsql';
-import { PinoLogger } from '../framework/logger';
+import { Mastra } from '../studio/mastra';
+import { LibSQLStore } from '../studio/libsql';
+import { PinoLogger } from '../studio/logger';
 import { codingAgent } from './agents/coding-agent';
 
 export const mastra = new Mastra({

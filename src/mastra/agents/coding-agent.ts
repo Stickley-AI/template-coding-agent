@@ -1,7 +1,7 @@
-import { Agent } from '../../framework/agent';
-import { LibSQLStore, LibSQLVector } from '../../framework/libsql';
-import { Memory } from '../../framework/memory';
-import { fastembed } from '../../framework/fastembed';
+import { Agent } from '../../studio/agent';
+import { LibSQLStore, LibSQLVector } from '../../studio/libsql';
+import { Memory } from '../../studio/memory';
+import { fastembed } from '../../studio/fastembed';
 import { openai } from '@ai-sdk/openai';
 import {
   checkFileExists,

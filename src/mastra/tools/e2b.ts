@@ -1,4 +1,4 @@
-import { createTool } from '../../framework/tools';
+import { createTool } from '../../studio/tools';
 import z from 'zod';
 import { FilesystemEventType, FileType, Sandbox } from '@e2b/code-interpreter';
 

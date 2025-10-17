@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Coding Agent Console</title>
+    <title>Studio.ai - AI Coding Agent</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -16,13 +16,28 @@
     <div class="app-shell">
       <aside class="sidebar" aria-label="Conversation controls">
         <div class="brand">
-          <div class="brand-icon" aria-hidden="true">⚙️</div>
+          <div class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#gradient1)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="gradient1" x1="2" y1="2" x2="22" y2="12">
+                  <stop offset="0%" stop-color="#8B5CF6"/>
+                  <stop offset="100%" stop-color="#EC4899"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
           <div>
-            <h1>Agent Console</h1>
-            <p>Coding Agent playground</p>
+            <h1>Studio.ai</h1>
+            <p>Intelligent Coding Assistant</p>
           </div>
         </div>
-        <button class="primary" id="new-thread-btn" type="button">Start fresh conversation</button>
+        <button class="primary" id="new-thread-btn" type="button">
+          <span class="button-icon">✨</span>
+          New Conversation
+        </button>
         <section class="panel">
           <header>
             <h2>Conversation</h2>
@@ -31,19 +46,19 @@
           <div class="field">
             <label for="thread-id-input">Thread ID</label>
             <div class="input-with-button">
-              <input id="thread-id-input" name="threadId" placeholder="Optional" />
+              <input id="thread-id-input" name="threadId" placeholder="Auto-generated" />
               <button type="button" id="copy-thread-id" title="Copy thread id">
                 <span aria-hidden="true">⧉</span>
               </button>
             </div>
           </div>
           <div class="field">
-            <label for="system-prompt">System prompt</label>
+            <label for="system-prompt">System Instructions</label>
             <textarea
               id="system-prompt"
               name="systemPrompt"
               rows="4"
-              placeholder="Customise how the agent should behave"
+              placeholder="Customize agent behavior..."
             ></textarea>
           </div>
           <div class="field">
@@ -59,24 +74,30 @@
         </section>
         <section class="panel">
           <header>
-            <h2>Request composer</h2>
-            <p>Enrich outbound calls</p>
+            <h2>Advanced Settings</h2>
+            <p>Configure request options</p>
           </header>
           <div class="field checkbox">
             <input type="checkbox" id="stream-toggle" name="stream" />
-            <label for="stream-toggle">Enable streaming mode</label>
+            <label for="stream-toggle">
+              <span class="checkbox-icon">⚡</span>
+              Enable streaming mode
+            </label>
           </div>
           <div class="field checkbox">
             <input type="checkbox" id="show-raw-toggle" name="showRaw" />
-            <label for="show-raw-toggle">Show raw request preview</label>
+            <label for="show-raw-toggle">
+              <span class="checkbox-icon">👁</span>
+              Show raw request preview
+            </label>
           </div>
           <div class="field">
-            <label for="tool-target">Tooling focus</label>
+            <label for="tool-target">Tooling Focus</label>
             <select id="tool-target" name="toolTarget">
-              <option value="auto" selected>Automatic (agent decides)</option>
-              <option value="sandbox">Sandbox operations</option>
-              <option value="code">Code authoring</option>
-              <option value="analysis">Analysis & planning</option>
+              <option value="auto" selected>🤖 Automatic (agent decides)</option>
+              <option value="sandbox">📦 Sandbox operations</option>
+              <option value="code">💻 Code authoring</option>
+              <option value="analysis">🔍 Analysis & planning</option>
             </select>
           </div>
         </section>
@@ -113,16 +134,22 @@
           </div>
           <textarea
             id="message-input"
-            placeholder="Describe the change you want the coding agent to make..."
+            placeholder="What would you like to create? Describe your coding task..."
             rows="4"
           ></textarea>
           <div class="composer-actions">
             <div class="attachments">
-              <label for="attachment-input" class="attachment-label">➕ Attach context</label>
+              <label for="attachment-input" class="attachment-label">
+                <span class="attachment-icon">📎</span>
+                Attach Files
+              </label>
               <input type="file" id="attachment-input" multiple hidden />
               <div id="attachment-list" class="attachment-list" aria-live="polite"></div>
             </div>
-            <button id="send-btn" class="primary" type="button">Send to agent</button>
+            <button id="send-btn" class="primary send-button" type="button">
+              <span class="button-icon">→</span>
+              Send Message
+            </button>
           </div>
         </section>
         <section class="raw-preview" id="raw-preview" hidden>

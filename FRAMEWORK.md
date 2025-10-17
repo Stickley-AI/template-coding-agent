@@ -1,23 +1,24 @@
-# Custom Framework Implementation
+# Studio.ai Framework
 
-This document describes the custom agent framework that replaces the Mastra AI integration in this project.
+This document describes the Studio.ai framework - a custom-built AI agent framework for intelligent coding assistance.
 
 ## Overview
 
-The custom framework provides a minimal implementation of the core features needed to run the coding agent:
+Studio.ai is a lightweight, modern framework that provides:
 
 - Agent orchestration and tool execution
 - Memory system with SQLite storage
-- Logging
+- Logging and monitoring
 - Integration with AI SDK (OpenAI)
+- Polished, professional UI/UX
 
 ## Architecture
 
 ### Core Components
 
-#### 1. Framework (`src/framework/`)
+#### 1. Studio.ai Framework (`src/studio/`)
 
-The custom framework consists of several modules:
+The Studio.ai framework consists of several modules:
 
 **`mastra.ts`** - Main orchestrator
 - Manages multiple agents
@@ -62,10 +63,27 @@ The custom framework consists of several modules:
 #### 2. Server (`src/server.ts`)
 
 Custom HTTP server that:
-- Serves the UI from `public/` directory
+- Serves the Studio.ai UI from `public/` directory
 - Provides REST API endpoints for agent invocation
 - Supports both invoke and stream modes
 - Handles CORS for local development
+
+### UI/UX Design
+
+Studio.ai features a modern, polished interface with:
+
+**Visual Design**
+- Dark theme with purple-pink gradient accents
+- Glass-morphism effects with backdrop blur
+- Smooth animations and transitions
+- Modern typography (Inter + JetBrains Mono)
+
+**User Experience**
+- Intuitive three-panel layout
+- Real-time status indicators
+- File attachment support
+- Responsive design
+- Accessible components
 
 ### API Endpoints
 
@@ -86,11 +104,13 @@ Same payload as invoke, returns Server-Sent Events (SSE)
 
 ### Differences from Mastra
 
-1. **Simplified Architecture**: No separate CLI, just a Node.js server
-2. **Direct Dependencies**: Uses AI SDK directly instead of abstraction layers
-3. **Minimal Features**: Only implements features actually needed by the project
-4. **TypeScript**: Full TypeScript support with proper type safety
-5. **No External Services**: Everything runs locally except AI model API calls
+1. **Modern UI/UX**: Polished interface with visual effects and smooth animations
+2. **Simplified Architecture**: No separate CLI, just a Node.js server
+3. **Direct Dependencies**: Uses AI SDK directly instead of abstraction layers
+4. **Minimal Features**: Only implements features actually needed
+5. **Custom Branding**: Studio.ai identity throughout
+6. **TypeScript**: Full TypeScript support with proper type safety
+7. **No External Services**: Everything runs locally except AI model API calls
 
 ## Dependencies
 
@@ -154,11 +174,12 @@ Potential improvements to the custom framework:
 
 When migrating from Mastra:
 
-1. Import paths changed from `@mastra/*` to `../framework/*`
+1. Import paths changed from `@mastra/*` to `../studio/*`
 2. Tool creation unchanged - same `createTool` interface
 3. Agent configuration unchanged - same `Agent` class interface
 4. Memory API slightly different but compatible
 5. No CLI commands - use npm scripts instead
+6. New modern UI with Studio.ai branding
 
 ## Testing
 
@@ -178,4 +199,4 @@ curl -X POST http://localhost:8787/api/agents/codingAgent/invoke \
 
 ## License
 
-This custom framework implementation is part of the template-coding-agent project and follows the same Apache-2.0 license.
+Studio.ai is part of the template-coding-agent project and follows the Apache-2.0 license.

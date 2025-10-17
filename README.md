@@ -1,12 +1,12 @@
-# E2B Code Execution Agent
+# Studio.ai - AI Coding Agent
 
-An advanced coding agent template that provides a coding agent capable of planning, writing, executing, and iterating on code in secure, isolated E2B sandboxes with comprehensive file management and development workflow capabilities.
+Studio.ai is an advanced AI coding agent framework with secure E2B sandbox execution, comprehensive file management, and multi-language support for Python, JavaScript, and TypeScript development workflows.
 
 ## Overview
 
-This template demonstrates how to build an AI coding assistant that can work with real development environments. The agent can create sandboxes, manage files and directories, execute code in multiple languages, and monitor development workflows - all within secure, isolated E2B environments.
+Studio.ai demonstrates how to build an intelligent AI coding assistant that works with real development environments. The agent can create sandboxes, manage files and directories, execute code in multiple languages, and monitor development workflows - all within secure, isolated E2B environments.
 
-This project uses a custom-built agent framework (inspired by Mastra) for managing AI agents, tools, and memory.
+This project features a custom-built agent framework with a polished, modern UI/UX designed for professional developers.
 
 ## Features
 
@@ -58,16 +58,15 @@ This project uses a custom-built agent framework (inspired by Mastra) for managi
 
 ## Architecture
 
-### Custom Framework
+### Studio.ai Framework
 
-The project includes a custom-built agent framework located in `src/framework/` that provides:
+The custom-built Studio.ai framework provides a complete agent orchestration system located in `src/studio/`:
 
-- **Mastra**: Main framework orchestrator
-- **Agent**: AI agent with tool execution capabilities
-- **Tools**: Tool definition and execution system
-- **Memory**: Conversation memory with SQLite storage
-- **Logger**: Simple console-based logger
-- **Storage**: SQLite-based storage for messages and threads
+- **Agent System**: AI agent with tool execution and streaming support
+- **Memory System**: Conversation history with SQLite storage
+- **Tool System**: Type-safe tool definitions with Zod validation
+- **Storage**: SQLite-based persistent storage
+- **Logger**: Console-based logging system
 
 ### Core Components
 
@@ -186,25 +185,25 @@ export const codingAgent = new Agent({
 
 ```text
 src/
-  framework/                      # Custom agent framework
-    mastra.ts                     # Main framework class
-    agent.ts                      # Agent implementation
-    tools.ts                      # Tool creation utilities
-    memory.ts                     # Memory system
-    libsql.ts                     # SQLite storage
-    logger.ts                     # Logger implementation
-    fastembed.ts                  # Embedding utilities
+  studio/                       # Studio.ai framework
+    mastra.ts                   # Main framework orchestrator
+    agent.ts                    # Agent implementation with AI SDK
+    tools.ts                    # Tool creation utilities
+    memory.ts                   # Memory system
+    libsql.ts                   # SQLite storage
+    logger.ts                   # Logger implementation
+    fastembed.ts                # Embedding utilities
   mastra/
     agents/
-      coding-agent.ts             # Main coding agent with development capabilities
+      coding-agent.ts           # Main coding agent
     tools/
-      e2b.ts                      # Complete E2B sandbox interaction toolkit
-    index.ts                      # Agent configuration
-  server.ts                       # HTTP server for API and UI
+      e2b.ts                    # E2B sandbox toolkit
+    index.ts                    # Agent configuration
+  server.ts                     # HTTP server for API and UI
 public/
-  index.html                      # Custom UI for driving the coding agent
-  styles.css                      # Modern, responsive styling for the console
-  app.js                          # Client-side logic for composing and dispatching agent requests
+  index.html                    # Studio.ai UI
+  styles.css                    # Modern, polished styling
+  app.js                        # Client-side application logic
 ```
 
 ## License
