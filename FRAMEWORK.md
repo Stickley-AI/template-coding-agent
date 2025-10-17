@@ -20,7 +20,7 @@ Studio.ai is a lightweight, modern framework that provides:
 
 The Studio.ai framework consists of several modules:
 
-**`mastra.ts`** - Main orchestrator
+**`studio.ts`** - Main orchestrator
 - Manages multiple agents
 - Provides invoke/stream methods
 - Integrates storage and logging
@@ -70,13 +70,14 @@ Custom HTTP server that:
 
 ### UI/UX Design
 
-Studio.ai features a modern, polished interface with:
+Studio.ai features a modern Voice UI-inspired interface with:
 
 **Visual Design**
-- Dark theme with purple-pink gradient accents
-- Glass-morphism effects with backdrop blur
-- Smooth animations and transitions
-- Modern typography (Inter + JetBrains Mono)
+- Pure black background (#000000) for deep contrast
+- White text with grayscale hierarchy
+- Subtle accent colors: Green (#00ff88), Blue (#0088ff), Orange (#ff8800)
+- Minimalist aesthetic with focus on content
+- Clean, professional appearance
 
 **User Experience**
 - Intuitive three-panel layout
@@ -196,6 +197,106 @@ curl -X POST http://localhost:8787/api/agents/codingAgent/invoke \
   -H "Content-Type: application/json" \
   -d '{"messages": [{"role": "user", "content": "Hello"}]}'
 ```
+
+## Integrations
+
+Studio.ai supports extensible integrations to enhance agent capabilities:
+
+### Current Integrations
+
+**E2B Code Sandbox**
+- Secure code execution environment
+- Multi-language support (Python, JavaScript, TypeScript)
+- File system operations
+- Package management
+- Real-time output streaming
+
+**OpenAI API**
+- GPT-4 model support via AI SDK
+- Streaming responses
+- Tool calling capabilities
+- Context management
+
+**SQLite Storage**
+- Persistent conversation history
+- Thread-based organization
+- Vector storage support (placeholder for embeddings)
+- Efficient local storage
+
+### Extensible Integration Framework
+
+The tool system allows easy addition of new integrations:
+
+```typescript
+import { createTool } from '../studio/tools';
+import z from 'zod';
+
+export const myIntegration = createTool({
+  id: 'myIntegration',
+  description: 'Description of integration',
+  inputSchema: z.object({
+    param: z.string().describe('Parameter description'),
+  }),
+  outputSchema: z.object({
+    result: z.string().describe('Result description'),
+  }),
+  execute: async ({ context }) => {
+    // Integration logic here
+    return { result: 'Success' };
+  },
+});
+```
+
+### Potential Integrations
+
+Studio.ai can be extended with additional integrations:
+
+**Development Tools**
+- GitHub API - Repository management, PR creation, issue tracking
+- GitLab API - Similar GitHub functionality for GitLab users
+- Jira API - Task management and sprint planning
+- Linear API - Modern issue tracking integration
+
+**Cloud Platforms**
+- AWS SDK - Cloud resource management
+- Google Cloud SDK - GCP service integration  
+- Azure SDK - Microsoft cloud services
+- Vercel API - Deployment automation
+
+**Data & AI**
+- Pinecone - Vector database for semantic search
+- Supabase - Backend-as-a-service integration
+- Anthropic Claude - Alternative LLM provider
+- Hugging Face - Open-source model integration
+
+**Communication**
+- Slack API - Team notifications and bot integration
+- Discord API - Community bot functionality
+- Email APIs - SendGrid, Mailgun for notifications
+- Twilio - SMS and voice capabilities
+
+**Databases**
+- PostgreSQL - SQL database operations
+- MongoDB - NoSQL database integration
+- Redis - Caching and pub/sub
+- Prisma - Type-safe database toolkit
+
+**File Storage**
+- S3-compatible - Object storage integration
+- Google Drive - Cloud file management
+- Dropbox - File synchronization
+- Cloudflare R2 - Edge storage
+
+### Integration Best Practices
+
+When adding new integrations:
+
+1. **Security**: Store API keys in environment variables
+2. **Error Handling**: Implement comprehensive error catching
+3. **Rate Limiting**: Respect API rate limits
+4. **Documentation**: Document tool usage in agent instructions
+5. **Testing**: Validate integration functionality
+6. **Type Safety**: Use Zod schemas for input/output validation
 
 ## License
 

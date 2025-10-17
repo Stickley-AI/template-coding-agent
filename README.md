@@ -186,7 +186,7 @@ export const codingAgent = new Agent({
 ```text
 src/
   studio/                       # Studio.ai framework
-    mastra.ts                   # Main framework orchestrator
+    studio.ts                   # Main framework orchestrator
     agent.ts                    # Agent implementation with AI SDK
     tools.ts                    # Tool creation utilities
     memory.ts                   # Memory system

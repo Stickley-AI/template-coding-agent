@@ -1,5 +1,5 @@
 // Core framework exports
-export { Mastra } from './mastra';
+export { Studio } from './studio';
 export { Agent } from './agent';
 export { createTool } from './tools';
 export { Memory } from './memory';
@@ -12,4 +12,4 @@ export type { Tool } from './tools';
 export type { AgentConfig } from './agent';
 export type { MemoryOptions, StorageAdapter } from './memory';
 export type { LoggerConfig } from './logger';
-export type { MastraConfig } from './mastra';
+export type { StudioConfig } from './studio';

@@ -1,5 +1,5 @@
 import http from 'http';
-import { mastra } from './mastra/index';
+import { studio } from './mastra/index';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -74,7 +74,7 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         const data = JSON.parse(body);
-        const agent = mastra.agents[agentName];
+        const agent = studio.agents[agentName];
 
         if (!agent) {
           res.writeHead(404, { 'Content-Type': 'application/json' });

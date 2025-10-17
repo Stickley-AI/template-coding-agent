@@ -1,17 +1,17 @@
 import { Agent } from './agent';
 
-export interface MastraConfig {
+export interface StudioConfig {
   agents: Record<string, Agent>;
   storage: any;
   logger: any;
 }
 
-export class Mastra {
+export class Studio {
   agents: Record<string, Agent>;
   storage: any;
   logger: any;
 
-  constructor(config: MastraConfig) {
+  constructor(config: StudioConfig) {
     this.agents = config.agents;
     this.storage = config.storage;
     this.logger = config.logger;

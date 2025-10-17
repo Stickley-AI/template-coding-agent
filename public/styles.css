@@ -1,41 +1,41 @@
 :root {
   color-scheme: dark;
   
-  /* Enhanced color palette */
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #0f1423;
-  --bg-elevated: #141829;
-  --bg-panel: #1a1f35;
-  --surface: #1e2438;
-  --surface-hover: #252b42;
+  /* Voice UI - Black & White with subtle accents */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-elevated: #121212;
+  --bg-panel: #1a1a1a;
+  --surface: #1f1f1f;
+  --surface-hover: #2a2a2a;
   
-  /* Modern gradient accents */
-  --accent-purple: #8b5cf6;
-  --accent-pink: #ec4899;
-  --accent-blue: #3b82f6;
-  --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-  --accent-glow: rgba(139, 92, 246, 0.15);
-  --accent-strong: rgba(139, 92, 246, 0.25);
+  /* Minimal accent colors */
+  --accent-green: #00ff88;
+  --accent-blue: #0088ff;
+  --accent-orange: #ff8800;
+  --accent-subtle: rgba(0, 255, 136, 0.06);
+  --accent-glow: rgba(0, 255, 136, 0.12);
+  --accent-strong: rgba(0, 255, 136, 0.20);
   
-  /* Text colors */
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  /* Pure black & white text */
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --text-dim: #707070;
   
-  /* Borders and shadows */
-  --border: rgba(248, 250, 252, 0.06);
-  --border-strong: rgba(248, 250, 252, 0.12);
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  /* Minimal borders */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -2px rgba(0, 0, 0, 0.6);
   --shadow-glow: 0 0 20px var(--accent-glow);
   
   /* Status colors */
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --info: #3b82f6;
+  --success: #00ff88;
+  --warning: #ff8800;
+  --danger: #ff4444;
+  --info: #0088ff;
   
   /* Typography */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -56,9 +56,8 @@
 body {
   margin: 0;
   background: 
-    radial-gradient(ellipse at 20% 10%, rgba(139, 92, 246, 0.08), transparent 50%),
-    radial-gradient(ellipse at 80% 90%, rgba(236, 72, 153, 0.06), transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.04), transparent 70%),
+    radial-gradient(ellipse at 20% 10%, rgba(0, 255, 136, 0.03), transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(0, 136, 255, 0.02), transparent 50%),
     var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
@@ -102,8 +101,8 @@ button, input, textarea, select {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.03), transparent 40%),
-    radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.03), transparent 40%);
+    radial-gradient(circle at 30% 20%, rgba(0, 255, 136, 0.02), transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(0, 136, 255, 0.02), transparent 40%);
   pointer-events: none;
   z-index: 0;
 }
@@ -111,8 +110,8 @@ button, input, textarea, select {
 /* Sidebar & Inspector */
 .sidebar, .inspector {
   background: linear-gradient(145deg, 
-    rgba(20, 24, 41, 0.95), 
-    rgba(10, 14, 26, 0.98)
+    rgba(18, 18, 18, 0.95), 
+    rgba(10, 10, 10, 0.98)
   );
   border-right: 1px solid var(--border);
   padding: 32px 28px;
@@ -151,7 +150,7 @@ button, input, textarea, select {
 .workspace {
   display: flex;
   flex-direction: column;
-  background: rgba(10, 14, 26, 0.85);
+  background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(30px);
   position: relative;
   z-index: 1;
@@ -169,7 +168,7 @@ button, input, textarea, select {
   width: 48px;
   height: 48px;
   border-radius: 16px;
-  background: var(--accent-gradient);
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-blue) 100%);
   display: grid;
   place-items: center;
   box-shadow: var(--shadow-glow), var(--shadow);
@@ -199,11 +198,11 @@ button, input, textarea, select {
   width: 28px;
   height: 28px;
   color: white;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .brand h1 {
-  background: var(--accent-gradient);
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -226,8 +225,8 @@ button {
 }
 
 .primary {
-  background: var(--accent-gradient);
-  color: white;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+  color: var(--bg-primary);
   padding: 14px 24px;
   border-radius: 12px;
   font-weight: 600;
@@ -245,7 +244,7 @@ button {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
   opacity: 0;
   transition: opacity var(--transition);
 }
@@ -291,7 +290,7 @@ button {
   inset: 0;
   border-radius: 16px;
   padding: 1px;
-  background: linear-gradient(145deg, rgba(139, 92, 246, 0.1), transparent);
+  background: linear-gradient(145deg, rgba(0, 255, 136, 0.1), transparent);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -351,8 +350,8 @@ button {
 .field input:focus,
 .field textarea:focus,
 .field select:focus {
-  border-color: var(--accent-purple);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
   background: var(--bg-elevated);
 }
 
@@ -373,7 +372,7 @@ button {
 .field select {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a0a0a0'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 20px;
@@ -401,14 +400,14 @@ button {
 }
 
 .field.checkbox input[type='checkbox']:checked {
-  background: var(--accent-gradient);
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
   border-color: transparent;
 }
 
 .field.checkbox input[type='checkbox']:checked::after {
   content: '✓';
   position: absolute;
-  color: white;
+  color: var(--bg-primary);
   font-size: 14px;
   font-weight: 700;
   inset: 0;
@@ -603,12 +602,12 @@ button {
 }
 
 .message.assistant {
-  background: linear-gradient(145deg, rgba(139, 92, 246, 0.05), var(--bg-panel));
-  border-left: 3px solid var(--accent-purple);
+  background: linear-gradient(145deg, rgba(0, 255, 136, 0.03), var(--bg-panel));
+  border-left: 3px solid var(--accent-green);
 }
 
 .message.internal {
-  background: rgba(239, 68, 68, 0.05);
+  background: rgba(255, 68, 68, 0.05);
   border-left: 3px solid var(--danger);
 }
 
@@ -670,8 +669,8 @@ button {
 }
 
 .composer textarea:focus {
-  border-color: var(--accent-purple);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
   background: var(--bg-elevated);
 }
 
