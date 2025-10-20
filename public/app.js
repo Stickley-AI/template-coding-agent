@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'mastra-agent-console-settings';
+const STORAGE_KEY = 'studio-ai-console-settings';
 const defaultSettings = {
   baseUrl: 'http://localhost:8787/api',
   agentId: 'codingAgent',
@@ -186,7 +186,7 @@ function formatRoleLabel(role) {
     case 'user':
       return 'You';
     case 'assistant':
-      return 'Coding Agent';
+      return 'Studio.ai';
     case 'tool':
       return 'Tool';
     case 'system':

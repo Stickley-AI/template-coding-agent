@@ -1,4 +1,4 @@
-import { createTool } from '@mastra/core/tools';
+import { createTool } from '../../studio/tools';
 import z from 'zod';
 import { FilesystemEventType, FileType, Sandbox } from '@e2b/code-interpreter';
 
@@ -189,7 +189,12 @@ export const writeFiles = createTool({
   execute: async ({ context }) => {
     try {
       const sandbox = await Sandbox.connect(context.sandboxId);
-      await sandbox.files.write(context.files);
+      // Explicitly type the files to match E2B's WriteEntry interface
+      const writeEntries = context.files.map(file => ({
+        path: file.path,
+        data: file.data
+      }));
+      await sandbox.files.write(writeEntries);
 
       return {
         success: true,
@@ -231,7 +236,8 @@ export const listFiles = createTool({
   execute: async ({ context }) => {
     try {
       const sandbox = await Sandbox.connect(context.sandboxId);
-      const fileList = await sandbox.files.list(context.path);
+      const pathToList = context.path || '/';
+      const fileList = await sandbox.files.list(pathToList);
 
       fileList.map(f => f.type);
 
@@ -241,7 +247,7 @@ export const listFiles = createTool({
           path: file.path,
           isDirectory: file.type === FileType.DIR,
         })),
-        path: context.path,
+        path: pathToList,
       };
     } catch (e) {
       return {

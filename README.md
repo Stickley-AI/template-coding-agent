@@ -1,10 +1,12 @@
-# E2B Code Execution Agent
+# Studio.ai - AI Coding Agent
 
-An advanced Mastra template that provides a coding agent capable of planning, writing, executing, and iterating on code in secure, isolated E2B sandboxes with comprehensive file management and development workflow capabilities.
+Studio.ai is an advanced AI coding agent framework with secure E2B sandbox execution, comprehensive file management, and multi-language support for Python, JavaScript, and TypeScript development workflows.
 
 ## Overview
 
-This template demonstrates how to build an AI coding assistant that can work with real development environments. The agent can create sandboxes, manage files and directories, execute code in multiple languages, and monitor development workflows - all within secure, isolated E2B environments.
+Studio.ai demonstrates how to build an intelligent AI coding assistant that works with real development environments. The agent can create sandboxes, manage files and directories, execute code in multiple languages, and monitor development workflows - all within secure, isolated E2B environments.
+
+This project features a custom-built agent framework with a polished, modern UI/UX designed for professional developers.
 
 ## Features
 
@@ -27,9 +29,9 @@ This template demonstrates how to build an AI coding assistant that can work wit
 1. **Clone and install dependencies:**
 
    ```bash
-   git clone https://github.com/mastra-ai/template-coding-agent.git
+   git clone https://github.com/astickleyid/template-coding-agent.git
    cd template-coding-agent
-   pnpm install
+   npm install
    ```
 
 2. **Set up environment variables:**
@@ -47,16 +49,24 @@ This template demonstrates how to build an AI coding assistant that can work wit
 3. **Start the development server:**
 
    ```bash
-   pnpm run dev
+   npm run dev
    ```
 
 4. **Open the bespoke coding console (optional):**
 
-   A fully client-side playground for the coding agent lives in `public/index.html`. Open the file in your browser or serve the
-   `public/` directory with any static file server to drive the agent with a rich, customisable UI. Configure the API base URL
-   and agent identifier from within the console to match your running Mastra instance.
+   A fully client-side playground for the coding agent lives in `public/index.html`. Navigate to `http://localhost:8787` in your browser to access the console. The server serves both the API and the UI.
 
 ## Architecture
+
+### Studio.ai Framework
+
+The custom-built Studio.ai framework provides a complete agent orchestration system located in `src/studio/`:
+
+- **Agent System**: AI agent with tool execution and streaming support
+- **Memory System**: Conversation history with SQLite storage
+- **Tool System**: Type-safe tool definitions with Zod validation
+- **Storage**: SQLite-based persistent storage
+- **Logger**: Console-based logging system
 
 ### Core Components
 
@@ -174,18 +184,28 @@ export const codingAgent = new Agent({
 ### Project Structure
 
 ```text
-src/mastra/
-      agents/
-        coding-agent.ts              # Main coding agent with development capabilities
-      tools/
-        e2b.ts                      # Complete E2B sandbox interaction toolkit
-      index.ts                        # Mastra configuration with storage and logging
+src/
+  studio/                       # Studio.ai framework
+    studio.ts                   # Main framework orchestrator
+    agent.ts                    # Agent implementation with AI SDK
+    tools.ts                    # Tool creation utilities
+    memory.ts                   # Memory system
+    libsql.ts                   # SQLite storage
+    logger.ts                   # Logger implementation
+    fastembed.ts                # Embedding utilities
+  mastra/
+    agents/
+      coding-agent.ts           # Main coding agent
+    tools/
+      e2b.ts                    # E2B sandbox toolkit
+    index.ts                    # Agent configuration
+  server.ts                     # HTTP server for API and UI
 public/
-  index.html                        # Custom UI for driving the coding agent
-  styles.css                        # Modern, responsive styling for the console
-  app.js                            # Client-side logic for composing and dispatching agent requests
+  index.html                    # Studio.ai UI
+  styles.css                    # Modern, polished styling
+  app.js                        # Client-side application logic
 ```
 
 ## License
 
-This project is part of the Mastra ecosystem and follows the same licensing terms.
+This project is licensed under the Apache-2.0 License.
